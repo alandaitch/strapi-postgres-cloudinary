@@ -781,7 +781,7 @@ export interface ApiCategoryCategory extends Schema.CollectionType {
   };
   attributes: {
     name: Attribute.String;
-    slug: Attribute.UID;
+    slug: Attribute.UID<'api::category.category', 'name'>;
     articles: Attribute.Relation<
       'api::category.category',
       'oneToMany',
