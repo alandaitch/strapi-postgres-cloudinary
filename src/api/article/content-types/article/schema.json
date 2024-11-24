@@ -47,6 +47,12 @@
       "relation": "manyToOne",
       "target": "api::category.category",
       "inversedBy": "articles"
+    },
+    "help_articles": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::help-article.help-article",
+      "mappedBy": "tags"
     }
   }
 }

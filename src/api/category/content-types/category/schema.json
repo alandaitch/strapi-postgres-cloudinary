@@ -4,7 +4,8 @@
   "info": {
     "singularName": "category",
     "pluralName": "categories",
-    "displayName": "Category"
+    "displayName": "Category",
+    "description": ""
   },
   "options": {
     "draftAndPublish": true
@@ -25,6 +26,33 @@
     },
     "description": {
       "type": "text"
+    },
+    "type": {
+      "type": "enumeration",
+      "enum": [
+        "blog",
+        "help"
+      ],
+      "default": "blog",
+      "required": true
+    },
+    "help_articles": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::help-article.help-article",
+      "mappedBy": "category"
+    },
+    "parent_category": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::category.category",
+      "inversedBy": "subcategories"
+    },
+    "subcategories": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::category.category",
+      "mappedBy": "parent_category"
     }
   }
 }

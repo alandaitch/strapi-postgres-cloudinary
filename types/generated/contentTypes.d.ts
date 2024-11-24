@@ -708,6 +708,11 @@ export interface ApiArticleArticle extends Schema.CollectionType {
       'manyToOne',
       'api::category.category'
     >;
+    help_articles: Attribute.Relation<
+      'api::article.article',
+      'manyToMany',
+      'api::help-article.help-article'
+    >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
@@ -769,6 +774,7 @@ export interface ApiCategoryCategory extends Schema.CollectionType {
     singularName: 'category';
     pluralName: 'categories';
     displayName: 'Category';
+    description: '';
   };
   options: {
     draftAndPublish: true;
@@ -782,6 +788,24 @@ export interface ApiCategoryCategory extends Schema.CollectionType {
       'api::article.article'
     >;
     description: Attribute.Text;
+    type: Attribute.Enumeration<['blog', 'help']> &
+      Attribute.Required &
+      Attribute.DefaultTo<'blog'>;
+    help_articles: Attribute.Relation<
+      'api::category.category',
+      'oneToMany',
+      'api::help-article.help-article'
+    >;
+    parent_category: Attribute.Relation<
+      'api::category.category',
+      'manyToOne',
+      'api::category.category'
+    >;
+    subcategories: Attribute.Relation<
+      'api::category.category',
+      'oneToMany',
+      'api::category.category'
+    >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
@@ -793,6 +817,63 @@ export interface ApiCategoryCategory extends Schema.CollectionType {
       Attribute.Private;
     updatedBy: Attribute.Relation<
       'api::category.category',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
+export interface ApiHelpArticleHelpArticle extends Schema.CollectionType {
+  collectionName: 'help_articles';
+  info: {
+    singularName: 'help-article';
+    pluralName: 'help-articles';
+    displayName: 'Help Article';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    title: Attribute.String &
+      Attribute.Required &
+      Attribute.SetMinMaxLength<{
+        maxLength: 200;
+      }>;
+    slug: Attribute.UID<'api::help-article.help-article', 'title'> &
+      Attribute.Required;
+    content: Attribute.RichText & Attribute.Required;
+    category: Attribute.Relation<
+      'api::help-article.help-article',
+      'manyToOne',
+      'api::category.category'
+    >;
+    related_articles: Attribute.Relation<
+      'api::help-article.help-article',
+      'manyToMany',
+      'api::article.article'
+    >;
+    tags: Attribute.Relation<
+      'api::help-article.help-article',
+      'manyToMany',
+      'api::article.article'
+    >;
+    Featured: Attribute.Boolean &
+      Attribute.Required &
+      Attribute.DefaultTo<false>;
+    Attachments: Attribute.Media;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::help-article.help-article',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::help-article.help-article',
       'oneToOne',
       'admin::user'
     > &
@@ -819,6 +900,7 @@ declare module '@strapi/types' {
       'api::article.article': ApiArticleArticle;
       'api::author.author': ApiAuthorAuthor;
       'api::category.category': ApiCategoryCategory;
+      'api::help-article.help-article': ApiHelpArticleHelpArticle;
     }
   }
 }
