@@ -691,7 +691,6 @@ export interface ApiArticleArticle extends Schema.CollectionType {
   attributes: {
     title: Attribute.String;
     excerpt: Attribute.Text &
-      Attribute.Required &
       Attribute.SetMinMaxLength<{
         maxLength: 160;
       }>;
