@@ -54,6 +54,12 @@
       "relation": "manyToMany",
       "target": "api::help-article.help-article",
       "mappedBy": "tags"
+    },
+    "SEO": {
+      "displayName": "SEO",
+      "type": "component",
+      "repeatable": false,
+      "component": "seo.seo"
     }
   }
 }

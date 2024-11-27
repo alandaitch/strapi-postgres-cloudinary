@@ -712,6 +712,7 @@ export interface ApiArticleArticle extends Schema.CollectionType {
       'manyToMany',
       'api::help-article.help-article'
     >;
+    SEO: Attribute.Component<'seo.seo'>;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
